@@ -1,0 +1,10 @@
+# Virtual environments or environments
+venv/
+.venv/
+.env
+
+# python cache files
+__pycache__/
+
+# OSX files
+*.DS_Store
