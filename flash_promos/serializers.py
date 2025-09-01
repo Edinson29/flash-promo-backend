@@ -2,6 +2,7 @@
 from rest_framework import serializers
 from .models import FlashPromo
 from users.models import UserSegment
+from stores.models import StoreProduct
 from django.utils import timezone
 
 
@@ -15,12 +16,12 @@ class FlashPromoSerializer(serializers.ModelSerializer):
         model = FlashPromo
         fields = (
             "id",
+            "title",
             "store_product",
             "special_price",
             "start_time",
             "end_time",
             "user_segments",
-            "is_active",
         )
 
     def validate(self, data):
