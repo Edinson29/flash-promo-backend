@@ -6,6 +6,7 @@ from django.utils import timezone
 
 
 class FlashPromo(TimeStampedModel):
+    title = models.CharField(max_length=255, null=True, blank=True)
     store_product = models.ForeignKey(
         StoreProduct, on_delete=models.CASCADE, related_name="flash_promos"
     )
