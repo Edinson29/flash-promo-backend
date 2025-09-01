@@ -2,9 +2,11 @@ from django.db import models
 from core.models import TimeStampedModel
 from stores.models import StoreProduct
 from users.models import UserSegment
+from django.utils import timezone
 
 
 class FlashPromo(TimeStampedModel):
+    title = models.CharField(max_length=255, null=True, blank=True)
     store_product = models.ForeignKey(
         StoreProduct, on_delete=models.CASCADE, related_name="flash_promos"
     )
@@ -21,3 +23,6 @@ class FlashPromo(TimeStampedModel):
 
     def __str__(self):
         return f"Flash Promo for {self.store_product.product.name} at {self.store_product.store.name}"
+
+    def is_valid(self):
+        return self.end_time > timezone.now()
