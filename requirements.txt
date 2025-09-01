@@ -3,3 +3,5 @@ djangorestframework==3.16.1
 python-dotenv==1.1.1
 Faker==37.6.0
 faker_food==0.3.0
+geopy==2.4.1
+firebase_admin==7.1.0
