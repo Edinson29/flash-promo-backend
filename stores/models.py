@@ -51,4 +51,4 @@ class StoreProduct(TimeStampedModel):
         ]  # Avoid duplicates
 
     def __str__(self):
-        return f"{self.product.name} in {self.store.name}"
+        return f"{self.product.name} in {self.store.name} - Price: {self.price}"
