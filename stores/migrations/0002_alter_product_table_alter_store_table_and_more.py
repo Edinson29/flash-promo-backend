@@ -4,22 +4,21 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('stores', '0001_initial'),
+        ("stores", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelTable(
-            name='product',
-            table='product',
+            name="product",
+            table="product",
         ),
         migrations.AlterModelTable(
-            name='store',
-            table='store',
+            name="store",
+            table="store",
         ),
         migrations.AlterModelTable(
-            name='storeproduct',
-            table='store_product',
+            name="storeproduct",
+            table="store_product",
         ),
     ]

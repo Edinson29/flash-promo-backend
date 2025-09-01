@@ -11,11 +11,30 @@ class User(TimeStampedModel):
 
 
 class UserSegment(TimeStampedModel):
-    name = models.CharField(max_length=50)
+    SEGMENT_CHOICES = [
+        ("user_standard", "Usuario Estándar"),
+        ("new_user", "Usuario Nuevo"),
+        ("frequent_user", "Usuario Frecuente"),
+    ]
+    name = models.CharField(
+        max_length=50,
+        unique=True,
+        choices=SEGMENT_CHOICES,
+        help_text="The unique identifier for the segment.",
+    )
+    display_name = models.CharField(
+        max_length=100,
+        help_text="The display name for the segment in the app or admin.",
+        default="",
+    )
     description = models.TextField(blank=True, null=True)
 
     class Meta:
         db_table = "user_segment"
+
+    def __str__(self):
+        return self.name
+
 
 class UserProfile(TimeStampedModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

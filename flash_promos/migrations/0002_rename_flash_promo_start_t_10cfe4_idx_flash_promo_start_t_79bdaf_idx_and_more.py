@@ -4,19 +4,18 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('flash_promos', '0001_initial'),
+        ("flash_promos", "0001_initial"),
     ]
 
     operations = [
         migrations.RenameIndex(
-            model_name='flashpromo',
-            new_name='flash_promo_start_t_79bdaf_idx',
-            old_name='flash_promo_start_t_10cfe4_idx',
+            model_name="flashpromo",
+            new_name="flash_promo_start_t_79bdaf_idx",
+            old_name="flash_promo_start_t_10cfe4_idx",
         ),
         migrations.AlterModelTable(
-            name='flashpromo',
-            table='flash_promo',
+            name="flashpromo",
+            table="flash_promo",
         ),
     ]

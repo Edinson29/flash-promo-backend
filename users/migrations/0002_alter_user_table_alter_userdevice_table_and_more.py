@@ -4,26 +4,25 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('users', '0001_initial'),
+        ("users", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelTable(
-            name='user',
-            table='user',
+            name="user",
+            table="user",
         ),
         migrations.AlterModelTable(
-            name='userdevice',
-            table='user_device',
+            name="userdevice",
+            table="user_device",
         ),
         migrations.AlterModelTable(
-            name='userprofile',
-            table='user_profile',
+            name="userprofile",
+            table="user_profile",
         ),
         migrations.AlterModelTable(
-            name='usersegment',
-            table='user_segment',
+            name="usersegment",
+            table="user_segment",
         ),
     ]

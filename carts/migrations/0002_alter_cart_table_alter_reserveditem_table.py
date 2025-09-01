@@ -4,18 +4,17 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('carts', '0001_initial'),
+        ("carts", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterModelTable(
-            name='cart',
-            table='cart',
+            name="cart",
+            table="cart",
         ),
         migrations.AlterModelTable(
-            name='reserveditem',
-            table='reserved_item',
+            name="reserveditem",
+            table="reserved_item",
         ),
     ]
