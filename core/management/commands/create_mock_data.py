@@ -8,12 +8,11 @@ from users.models import User, UserSegment, UserProfile, UserDevice
 from stores.models import Store, Product, StoreProduct
 
 
-
 fake = Faker("es_CO")
+
 
 class Command(BaseCommand):
     help = "Generate mock data for users, stores and products"
-
 
     def handle(self, *args, **kwargs):
         users = []
@@ -22,13 +21,17 @@ class Command(BaseCommand):
         user_segment_names = {
             "user_standard": "Usuario standard",
             "new_user": "Nuevo Usuario",
-            "frequent_user": "Usuario frecuente"
+            "frequent_user": "Usuario frecuente",
         }
         stores = []
         products = []
 
         if User.objects.exists() or Store.objects.exists() or Product.objects.exists():
-            self.stdout.write(self.style.WARNING("⚠️ The data already exists; nothing new was created."))
+            self.stdout.write(
+                self.style.WARNING(
+                    "⚠️ The data already exists; nothing new was created."
+                )
+            )
             return
 
         # USERS!!!!!!!!!!!!
@@ -36,24 +39,18 @@ class Command(BaseCommand):
             segment = UserSegment.objects.create(
                 name=user_segment_name,
                 display_name=user_segment_names[user_segment_name],
-                description=f"Segmento de {user_segment_names[user_segment_name]}"
+                description=f"Segmento de {user_segment_names[user_segment_name]}",
             )
             user_segments.append(segment)
 
-
         for _ in range(10000):
-            user = User.objects.create(
-                email=fake.unique.email(),
-                name=fake.name()
-            )
+            user = User.objects.create(email=fake.unique.email(), name=fake.name())
 
             users.append(user)
             user_ids.append(user.id)
-            
+
             user_profile = UserProfile.objects.create(
-                user=user,
-                latitude=fake.latitude(),
-                longitude=fake.longitude()
+                user=user, latitude=fake.latitude(), longitude=fake.longitude()
             )
 
             user_profile.segments.add(random.choice(user_segments))
@@ -63,17 +60,16 @@ class Command(BaseCommand):
                 device_id=str(uuid.uuid4()),
                 device_type=random.choice(["ios", "android"]),
                 device_token=str(uuid.uuid4()),
-                is_active=True
+                is_active=True,
             )
 
-        
         # STORES !!!!!!!!!!!!
         for _ in range(random.randint(10, 20)):
             store = Store.objects.create(
                 name=fake.unique.company(),
                 address=fake.address(),
                 latitude=fake.latitude(),
-                longitude=fake.longitude()
+                longitude=fake.longitude(),
             )
             stores.append(store)
 
@@ -82,10 +78,9 @@ class Command(BaseCommand):
 
             product = Product.objects.create(
                 name=random.choice([fake.unique.fruit(), fake.unique.vegetable()]),
-                description=fake.text(max_nb_chars=200)
+                description=fake.text(max_nb_chars=200),
             )
             products.append(product)
-
 
         # Asign products to all stores !!!!!!!!!!!!
         for store in stores:
@@ -96,5 +91,5 @@ class Command(BaseCommand):
                     price=random.randint(500, 1000),
                     stock=random.randint(1, 100),
                 )
-        
+
         self.stdout.write(self.style.SUCCESS("✅ Mock data created successfully"))
