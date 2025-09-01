@@ -9,6 +9,9 @@ class Store(TimeStampedModel):
     latitude = models.FloatField()
     longitude = models.FloatField()
 
+    class Meta:
+        db_table = "store"
+
     def __str__(self):
         return self.name
 
@@ -16,6 +19,9 @@ class Store(TimeStampedModel):
 class Product(TimeStampedModel):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True, null=True)
+
+    class Meta:
+        db_table = "product"
 
     def __str__(self):
         return self.name
@@ -37,6 +43,7 @@ class StoreProduct(TimeStampedModel):
     stock = models.PositiveIntegerField(default=0)
 
     class Meta:
+        db_table = "store_product"
         constraints = [
             UniqueConstraint(
                 fields=["store", "product"], name="unique_product_per_store"

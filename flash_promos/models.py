@@ -16,6 +16,7 @@ class FlashPromo(TimeStampedModel):
     is_active = models.BooleanField(default=True)
 
     class Meta:
+        db_table = "flash_promo"
         indexes = [models.Index(fields=["start_time", "end_time"])]
 
     def __str__(self):

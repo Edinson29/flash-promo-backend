@@ -6,17 +6,25 @@ class User(TimeStampedModel):
     email = models.EmailField(unique=True)
     name = models.CharField(max_length=100)
 
+    class Meta:
+        db_table = "user"
+
 
 class UserSegment(TimeStampedModel):
     name = models.CharField(max_length=50)
     description = models.TextField(blank=True, null=True)
 
+    class Meta:
+        db_table = "user_segment"
 
 class UserProfile(TimeStampedModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     segments = models.ManyToManyField(UserSegment, related_name="users")
     latitude = models.FloatField()
     longitude = models.FloatField()
+
+    class Meta:
+        db_table = "user_profile"
 
 
 class UserDevice(TimeStampedModel):
@@ -29,6 +37,9 @@ class UserDevice(TimeStampedModel):
     )
     device_token = models.CharField(max_length=512, blank=True, null=True)
     is_active = models.BooleanField(default=True)
+
+    class Meta:
+        db_table = "user_device"
 
     def _str__(self):
         return f"{self.user.email} - {self.device_type} ({self.device_id})"
