@@ -1,2 +1,5 @@
 Django==5.2.5
 djangorestframework==3.16.1
+python-dotenv==1.1.1
+Faker==37.6.0
+faker_food==0.3.0
