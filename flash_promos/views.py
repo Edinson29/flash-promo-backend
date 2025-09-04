@@ -1,6 +1,7 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from django.utils import timezone
+from django.core.cache import cache
 from geopy.distance import distance
 from .models import FlashPromo
 from users.models import UserProfile, UserDevice
@@ -14,6 +15,38 @@ from datetime import timedelta
 class FlashPromoViewSet(viewsets.ModelViewSet):
     queryset = FlashPromo.objects.all()
     serializer_class = FlashPromoSerializer
+    CACHE_KEY_ACTIVE = "flash_promos_active"
+
+    def list(self, request):
+        is_active = request.query_params.get("is_active")
+
+        if is_active == "true":
+            promos = cache.get(self.CACHE_KEY_ACTIVE)
+
+            if not promos:
+                promos = FlashPromo.objects.filter(is_active=True).select_related(
+                    "store_product__store", "store_product__product"
+                )
+                page = self.paginate_queryset(promos)
+                if page is not None:
+                    serializer = self.get_serializer(page, many=True)
+                    promos = serializer.data
+                    cache.set(self.CACHE_KEY_ACTIVE, promos, timeout=300)
+                    return self.get_paginated_response(promos)
+
+                serializer = self.get_serializer(promos, many=True)
+                promos = serializer.data
+                cache.set(self.CACHE_KEY_ACTIVE, promos, timeout=300)
+
+            return Response(promos)
+
+        queryset = self.paginate_queryset(self.queryset)
+        if queryset is not None:
+            serializer = self.get_serializer(queryset, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(self.queryset, many=True)
+        return Response(serializer.data)
 
     def create(self, request, *args, **kwargs):
         serializer = FlashPromoSerializer(data=request.data)
@@ -55,6 +88,10 @@ class FlashPromoViewSet(viewsets.ModelViewSet):
             end_time=end_time,
             is_active=True,
         )
+
+        # Invalidate cache
+        cache.delete(self.CACHE_KEY_ACTIVE)
+
         flash_promo.user_segments.set(user_segment_ids)
         serializer = self.get_serializer(flash_promo)
 
