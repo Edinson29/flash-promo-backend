@@ -5,3 +5,5 @@ Faker==37.6.0
 faker_food==0.3.0
 geopy==2.4.1
 firebase_admin==7.1.0
+ruff==0.12.11
+pre_commit==4.3.0
